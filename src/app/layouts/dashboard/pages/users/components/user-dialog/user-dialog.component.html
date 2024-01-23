@@ -1,0 +1,85 @@
+<h1 mat-dialog-title class="flex align-items-center justify-content-center py-3">
+    {{ user ? "Editing student to the list" : "Adding student to the list" }}
+</h1>
+
+<div mat-dialog-content>
+    <form [formGroup]="userForm" class="grid formgrid">
+        <div class="col-4 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>First name</mat-label>
+                <input formControlName="firstName" matInput type="text" />
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Last name</mat-label>
+                <input formControlName="lastName" matInput type="text" />
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-radio-group aria-label="Select an option" formControlName="gender">
+                <mat-label>
+                    <p class="design-p">Gender</p>
+                </mat-label>
+                <mat-radio-button value="Male">Male</mat-radio-button>
+                <mat-radio-button value="Female">Female</mat-radio-button>
+                <mat-radio-button value="Others">Others</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="col-6 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput type="email" />
+            </mat-form-field>
+        </div>
+        <div class="col-6 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Choose a date" />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Wood of magic wand</mat-label>
+                <mat-select formControlName="magicWandWood">
+                    <mat-option value="Willow">Willow</mat-option>
+                    <mat-option value="Oak">Oak</mat-option>
+                    <mat-option value="Walnut">Walnut</mat-option>
+                    <mat-option value="Cherry tree">Cherry tree</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Core of magic wand</mat-label>
+                <mat-select formControlName="magicWandCore">
+                    <mat-option value="Dragon's heartstring">Dragon's heartstring</mat-option>
+                    <mat-option value="Phoenix feather">Phoenix feather</mat-option>
+                    <mat-option value="Mermaid scale">Mermaid scale</mat-option>
+                    <mat-option value="Unicorn hair">Unicorn hair</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Length of magic wand</mat-label>
+                <mat-select formControlName="magicWandLength">
+                    <mat-option value="Short">Short</mat-option>
+                    <mat-option value="Medium">Medium</mat-option>
+                    <mat-option value="Long">Long</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+
+<div mat-dialog-actions class="flex justify-content-center gap-4 mat-dialog-actions-design">
+    <button [mat-dialog-close]="false" mat-raised-button color="warn" type="button" class="col-2">
+        Cancel
+    </button>
+    <button (click)="onSubmit()" mat-raised-button color="primary" type="submit" class="col-2">
+        Save
+    </button>
+</div>
