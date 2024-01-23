@@ -1,0 +1,14 @@
+.ng-image {
+    width: 150px;
+}
+
+.position-image {
+    height: 180px;
+    display: flex;       // Utiliza flexbox
+    justify-content: center;  // Centra horizontalmente
+    align-items: center; 
+}
+
+mat-list-item {
+    padding: 0 30px;
+}
