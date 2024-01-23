@@ -1,0 +1,8 @@
+<div style="padding-bottom: 1.5rem">
+    <button (click)="openUserDialog()" mat-flat-button color="primary">
+        <mat-icon>add</mat-icon>Add student
+    </button>
+</div>
+
+<app-users-table [dataSource]="users" (editUser)="onEditUser($event)"
+    (deleteUser)="onDeleteUser($event)"></app-users-table>
