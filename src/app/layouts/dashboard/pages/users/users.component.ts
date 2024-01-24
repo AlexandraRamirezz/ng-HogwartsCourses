@@ -22,7 +22,7 @@ export class UsersComponent {
       dateOfBirth: '10/02/2003',
       magicWandWood: 'Oak',
       magicWandCore: 'Phoenix feather',
-      magicWandLength: 'Medium',
+      magicWandLength: 'Long',
     },
     {
       id: 2,
