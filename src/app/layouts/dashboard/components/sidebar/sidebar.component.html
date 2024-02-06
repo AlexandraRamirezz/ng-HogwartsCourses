@@ -1,17 +1,17 @@
 <div class="position-image">
-    <img mat-card-image class="ng-image" src="../../../../../favicon.ico" alt="Photo of a Shiba Inu">
+    <img mat-card-image class="ng-image" src="../../../../../favicon.ico" alt="Logo of HogwartsCourses, it's a shield with a division of 4 animals">
 </div>
 <mat-nav-list>
-    <mat-list-item>
+    <mat-list-item routerLink="home" routerLinkActive="active-link">
         <a>Home</a>
     </mat-list-item>
-    <mat-list-item [activated]="true">
+    <mat-list-item routerLink="users" routerLinkActive="active-link">
         <a>Students</a>
     </mat-list-item>
-    <mat-list-item>
+    <mat-list-item routerLink="courses" routerLinkActive="active-link">
         <a>Courses</a>
     </mat-list-item>
-    <mat-list-item>
+    <mat-list-item routerLink="enrollments" routerLinkActive="active-link">
         <a>Enrollments</a>
     </mat-list-item>
 </mat-nav-list>
