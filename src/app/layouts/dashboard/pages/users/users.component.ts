@@ -11,6 +11,7 @@ import { EventEmitter, Input, Output } from '@angular/core';
 })
 export class UsersComponent {
   userName = '';
+  style = 'bolder';
 
   users: User[] = [
     {
