@@ -6,6 +6,7 @@ import { UsersService } from '../../../../core/services/users.service';
 import { CoursesService } from '../../../../core/services/courses.service';
 import { EnrollmentsService } from '../../../../core/services/enrollments.service';
 import { EnrollmentsRoutingModule } from './enrollments-routing.module';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { EnrollmentsRoutingModule } from './enrollments-routing.module';
   imports: [
     CommonModule,
     EnrollmentsRoutingModule,
+    SharedModule
   ],
   exports: [EnrollmentsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
