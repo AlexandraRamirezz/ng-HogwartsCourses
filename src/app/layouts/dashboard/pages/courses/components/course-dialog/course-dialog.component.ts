@@ -38,7 +38,7 @@ export class CourseDialogComponent {
     if (this.data.edit) {
       this.courseForm.patchValue(this.data.course);
     }
-    if(this.data.view){
+    if (this.data.view) {
       this.courseForm.patchValue(this.data.course);
       this.courseForm.get('title')?.disable();
       this.courseForm.get('description')?.disable();
@@ -53,34 +53,38 @@ export class CourseDialogComponent {
   ngOnInit(): void {
     this.getCourses();
   }
-  
+
   getCourses(): void {
-    this.coursesService.getCourses().subscribe({
-      next: (courses: Course[]) => {
-        this.enrollmentsService.getEnrollments().subscribe({
-          next: (enrollments: any[]) => {
-            this.enrollments = enrollments;
-            const currentCourse = courses.find(course => course.courseId === this.data.course.courseId);
-            if (currentCourse) {
-              this.coursesService.checkStudents(currentCourse, enrollments).subscribe({
-                next: (enrollmentsStudent: any[]) => {
-                  this.enrollmentsStudent = enrollments.filter(enrollment => enrollment.courseId === currentCourse.courseId);
-                },
-                error: (error) => {
-                  console.error('Error checking student courses: ', error);
-                }
-              });
+    if (this.data && this.data.course && this.data.course.courseId) {
+      this.coursesService.getCourses().subscribe({
+        next: (courses: Course[]) => {
+          this.enrollmentsService.getEnrollments().subscribe({
+            next: (enrollments: any[]) => {
+              this.enrollments = enrollments;
+              const currentCourse = courses.find(course => course.courseId === this.data.course.courseId);
+              if (currentCourse) {
+                this.coursesService.checkStudents(currentCourse, enrollments).subscribe({
+                  next: (enrollmentsStudent: any[]) => {
+                    this.enrollmentsStudent = enrollments.filter(enrollment => enrollment.courseId === currentCourse.courseId);
+                  },
+                  error: (error) => {
+                    console.error('Error checking student courses: ', error);
+                  }
+                });
+              }
+            },
+            error: (error) => {
+              console.error('Error getting enrollments: ', error);
             }
-          },
-          error: (error) => {
-            console.error('Error getting enrollments: ', error);
-          }
-        });
-      },
-      error: (error) => {
-        console.error('Failed to get courses:', error);
-      }
-    });
+          });
+        },
+        error: (error) => {
+          console.error('Failed to get courses:', error);
+        }
+      });
+    } else {
+      console.error('this.data or this.data.course is undefined or null.');
+    }
   }
 
   onSubmit(): void {
