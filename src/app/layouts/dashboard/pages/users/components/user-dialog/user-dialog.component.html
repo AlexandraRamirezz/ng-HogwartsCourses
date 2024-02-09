@@ -1,5 +1,5 @@
 <h1 mat-dialog-title class="flex align-items-center justify-content-center py-3">
-    {{ user ? "Editing student to the list" : "Adding student to the list" }}
+    Users
 </h1>
 
 <div mat-dialog-content>
@@ -32,12 +32,22 @@
                 <input formControlName="email" matInput type="email" />
             </mat-form-field>
         </div>
-        <div class="col-6 py-2">
+        <div class="col-3 py-2">
             <mat-form-field class="w-full">
                 <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Choose a date" />
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-3 py-2">
+            <mat-form-field class="w-full">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option value="Administrator">Administrator</mat-option>
+                    <mat-option value="Teacher">Teacher</mat-option>
+                    <mat-option value="Student">Student</mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div class="col-4 py-2">
