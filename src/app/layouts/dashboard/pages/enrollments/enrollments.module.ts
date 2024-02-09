@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { EnrollmentsComponent } from './enrollments.component';
 import { SharedModule } from '../../../../shared/shared.module';
 import { EnrollmentDialogComponent } from './components/enrollment-dialog/enrollment-dialog.component';
-import { UsersService } from '../../../../core/users.service';
-import { CoursesService } from '../../../../core/courses.service';
-import { EnrollmentsService } from '../../../../core/enrollments.service';
+import { UsersService } from '../../../../core/services/users.service';
+import { CoursesService } from '../../../../core/services/courses.service';
+import { EnrollmentsService } from '../../../../core/services/enrollments.service';
 import { EnrollmentsRoutingModule } from './enrollments-routing.module';
 import { RouterModule } from '@angular/router';
 

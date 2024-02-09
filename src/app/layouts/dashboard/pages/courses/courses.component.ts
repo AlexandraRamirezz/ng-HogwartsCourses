@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 import { Course } from './models/course';
-import { CoursesService } from '../../../../core/courses.service';
+import { CoursesService } from '../../../../core/services/courses.service';
 import Swal from 'sweetalert2';
 
 @Component({

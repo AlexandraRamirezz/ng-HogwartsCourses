@@ -3,8 +3,8 @@ import { Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { User } from '../../models/user';
-import { UsersService } from '../../../../../../core/users.service';
-import { EnrollmentsService } from '../../../../../../core/enrollments.service';
+import { UsersService } from '../../../../../../core/services/users.service';
+import { EnrollmentsService } from '../../../../../../core/services/enrollments.service';
 import Swal from 'sweetalert2';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { User } from './models/user';
-import { UsersService } from '../../../../core/users.service';
+import { UsersService } from '../../../../core/services/users.service';
 import Swal from 'sweetalert2';
 
 @Component({

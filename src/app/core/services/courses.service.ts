@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { User } from '../layouts/dashboard/pages/users/models/user';
-import { Enrollment } from '../layouts/dashboard/pages/enrollments/models/enrollment';
-import { Course } from '../layouts/dashboard/pages/courses/models/course';
+import { User } from '../../layouts/dashboard/pages/users/models/user';
+import { Enrollment } from '../../layouts/dashboard/pages/enrollments/models/enrollment';
+import { Course } from '../../layouts/dashboard/pages/courses/models/course';
 
 let courses: Course[] = [
   {

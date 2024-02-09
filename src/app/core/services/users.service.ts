@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { User } from '../layouts/dashboard/pages/users/models/user';
-import { Enrollment } from '../layouts/dashboard/pages/enrollments/models/enrollment';
+import { User } from '../../layouts/dashboard/pages/users/models/user';
+import { Enrollment } from '../../layouts/dashboard/pages/enrollments/models/enrollment';
 
 let users: User[] = [
   {

@@ -4,9 +4,9 @@ import { UsersComponent } from './users.component';
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { SharedModule } from '../../../../shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { UsersService } from '../../../../core/users.service';
-import { EnrollmentsService } from '../../../../core/enrollments.service';
-import { CoursesService } from '../../../../core/courses.service';
+import { UsersService } from '../../../../core/services/users.service';
+import { EnrollmentsService } from '../../../../core/services/enrollments.service';
+import { CoursesService } from '../../../../core/services/courses.service';
 import { UsersRoutingModule } from './users-routing.module';
 
 // Angular material

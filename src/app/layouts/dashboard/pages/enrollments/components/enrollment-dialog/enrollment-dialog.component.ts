@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Enrollment } from '../../models/enrollment';
-import { CoursesService } from '../../../../../../core/courses.service';
-import { UsersService } from '../../../../../../core/users.service';
+import { CoursesService } from '../../../../../../core/services/courses.service';
+import { UsersService } from '../../../../../../core/services/users.service';
 import Swal from 'sweetalert2';
 
 @Component({

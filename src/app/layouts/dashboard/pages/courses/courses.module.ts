@@ -5,9 +5,9 @@ import { CourseDialogComponent } from './components/course-dialog/course-dialog.
 import { SharedModule } from '../../../../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { CoursesRoutingModule } from './courses-routing.module';
-import { CoursesService } from '../../../../core/courses.service';
-import { EnrollmentsService } from '../../../../core/enrollments.service';
-import { UsersService } from '../../../../core/users.service';
+import { CoursesService } from '../../../../core/services/courses.service';
+import { EnrollmentsService } from '../../../../core/services/enrollments.service';
+import { UsersService } from '../../../../core/services/users.service';
 
 // Angular material
 import { MatDatepickerModule } from '@angular/material/datepicker';
