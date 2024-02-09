@@ -14,7 +14,7 @@
     <mat-list-item routerLink="enrollments" routerLinkActive="active-link">
         <a>Enrollments</a>
     </mat-list-item>
-    <mat-list-item routerLink="/auth/login" routerLinkActive="active-link">
+    <mat-list-item (click)="logout()" routerLinkActive="active-link">
         <a>Log out</a>
     </mat-list-item>
 </mat-nav-list>

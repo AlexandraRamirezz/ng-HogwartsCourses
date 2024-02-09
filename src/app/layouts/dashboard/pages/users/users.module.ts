@@ -2,8 +2,12 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersComponent } from './users.component';
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
-import { UserTableComponent } from './components/user-table/user-table.component';
 import { SharedModule } from '../../../../shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { UsersService } from '../../../../core/users.service';
+import { EnrollmentsService } from '../../../../core/enrollments.service';
+import { CoursesService } from '../../../../core/courses.service';
+import { UsersRoutingModule } from './users-routing.module';
 
 // Angular material
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -16,15 +20,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UserDialogComponent,
-    UserTableComponent,
   ],
   imports: [
     CommonModule,
+    UsersRoutingModule,
     SharedModule,
     MatDatepickerModule,
     MatSelectModule,
@@ -36,8 +41,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
+    RouterModule,
   ],
   exports: [UsersComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    UsersService,
+    EnrollmentsService,
+    CoursesService,
+  ],
 })
 export class UsersModule { }
