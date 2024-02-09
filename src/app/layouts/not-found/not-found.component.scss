@@ -1,0 +1,26 @@
+.container {
+    display: flex; /* Utilizamos flexbox */
+    flex-direction: column; /* Apilamos los elementos verticalmente */
+    padding-top: 80px; /* Centramos verticalmente */
+    align-items: center; /* Centramos horizontalmente */
+    height: 100vh; /* Establecemos la altura del contenedor al 100% de la altura de la ventana */
+}
+
+h1 {
+    font-size: 5em;
+    color: #7668667e;
+    margin-bottom: 1px;
+}
+
+h2 {
+    font-size: 2em;
+    color: #333;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+h3 {
+    font-size: 1.2em;
+    color: #333333e6;
+    font-weight: 300;
+}
