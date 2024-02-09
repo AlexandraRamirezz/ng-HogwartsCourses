@@ -89,26 +89,30 @@ export class EnrollmentsComponent {
       })
   }
 
-  onDeleteEnrollment(id: number) {
+  onDeleteEnrollment(enrollmentId: number) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'This action cannot be reversed',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#1e88e5',
+      cancelButtonColor: '#c2185b',
       confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
+      cancelButtonText: 'Cancel',
+      background: '#303030',
+      color: 'white',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.enrollmentsService.deleteEnrollmentsByID(id).subscribe({
+        this.enrollmentsService.deleteEnrollmentsByID(enrollmentId).subscribe({
           next: (enrollment) => {
             this.enrollments = enrollment;
             Swal.fire({
               icon: 'success',
-              title: 'Enrollment successfully deleted',
+              text: 'Enrollment successfully deleted',
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
+              background: '#303030',
+              color: 'white',
             });
           },
           error: (error) => {
@@ -116,7 +120,9 @@ export class EnrollmentsComponent {
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'There was an error deleting the enrollment.'
+              text: 'There was an error deleting the enrollment.',
+              background: '#303030',
+              color: 'white',
             });
           }
         });

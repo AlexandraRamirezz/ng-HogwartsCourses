@@ -81,6 +81,9 @@ export class EnrollmentDialogComponent {
       icon: 'error',
       title: 'Error',
       text: message,
+      confirmButtonColor: '#1e88e5',
+      background: '#303030',
+      color: 'white',
     });
   }
 

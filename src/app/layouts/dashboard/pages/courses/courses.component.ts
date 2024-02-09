@@ -77,10 +77,12 @@ export class CoursesComponent {
       text: 'This action cannot be reversed',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#1e88e5',
+      cancelButtonColor: '#c2185b',
       confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
+      cancelButtonText: 'Cancel',
+      background: '#303030',
+      color: 'white',
     }).then((result) => {
       if (result.isConfirmed) {
         this.coursesService.deleteCoursesByID(courseId).subscribe({
@@ -88,9 +90,11 @@ export class CoursesComponent {
             this.courses = user;
             Swal.fire({
               icon: 'success',
-              title: 'Course successfully deleted',
+              text: 'Course successfully deleted',
               showConfirmButton: false,
-              timer: 1500
+              timer: 1500,
+              background: '#303030',
+              color: 'white',
             });
           },
           error: (error) => {
@@ -98,7 +102,9 @@ export class CoursesComponent {
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'There was an error deleting the course.'
+              text: 'There was an error deleting the course.',
+              background: '#303030',
+              color: 'white',
             });
           }
         });
