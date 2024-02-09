@@ -1,0 +1,49 @@
+<h1 mat-dialog-title class="flex align-items-center justify-content-center py-3">
+    Enrollments
+</h1>
+
+<div mat-dialog-content>
+    <form [formGroup]="enrollmentForm" class="grid formgrid">
+        <div class="col-6">
+            <mat-form-field class="w-full">
+                <mat-label>Course title</mat-label>
+                <mat-select formControlName="courseTitle">
+                    <mat-option *ngFor="let course of courses" [value]="course.title">
+                        {{ course.title }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6">
+            <mat-form-field class="w-full">
+                <mat-label>Student name</mat-label>
+                <mat-select formControlName="studentName">
+                    <mat-option *ngFor="let user of users" [value]="user.firstName + ' ' + user.lastName">
+                        {{ user.firstName }}  {{ user.lastName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-6">
+            <mat-form-field class="w-full">
+                <mat-label>Shift</mat-label>
+                <input formControlName="shift" matInput [disabled]="true">
+            </mat-form-field>
+        </div>
+        <div class="col-6">
+            <mat-form-field class="w-full">
+                <mat-label>Modality</mat-label>
+                <input formControlName="modality" matInput [disabled]="true">
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+
+<div mat-dialog-actions class="flex justify-content-center gap-4 mat-dialog-actions-design">
+    <button (click)="save()" mat-raised-button color="primary" type="submit" class="col-2">
+        Save
+    </button>
+    <button [mat-dialog-close]="false" mat-raised-button color="warn" type="button" class="col-2">
+        Cancel
+    </button>
+</div>
