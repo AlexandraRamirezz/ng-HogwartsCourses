@@ -1,14 +1,13 @@
 <mat-drawer-container class="example-container" autosize>
-    <mat-drawer style="width: 170px" [opened]="showSidebar" #drawer class="example-sidenav" mode="side"
+    <mat-drawer [opened]="showSidebar" #drawer class="example-sidenav" mode="side"
         position="start">
         <app-sidebar></app-sidebar>
     </mat-drawer>
-
+    
     <div class="example-sidenav-content">
         <app-toolbar (toggleSidebar)="showSidebar = !showSidebar"></app-toolbar>
-        <main style="padding: 1.5rem">
-            <h1 [fontWeight]="style" appHeadline>List of students</h1>
-            <app-users></app-users>
+        <main>
+            <router-outlet></router-outlet>
         </main>
     </div>
 </mat-drawer-container>
