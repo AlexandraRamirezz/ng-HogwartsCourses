@@ -1,0 +1,71 @@
+<h1 mat-dialog-title class="flex align-items-center justify-content-center py-3">
+    Courses
+</h1>
+
+<div mat-dialog-content>
+    <form [formGroup]="courseForm" class="grid formgrid">
+        <div class="col-6 py-2">
+            <mat-form-field  class="w-full">
+                <mat-label>Title</mat-label>
+                <input formControlName="title" matInput type="text" />
+            </mat-form-field>
+        </div>
+        <div class="col-3 py-2">
+            <mat-form-field class="w-full">
+                <input matInput formControlName="startDate" [matDatepicker]="startDatePicker" placeholder="Choose a date" />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-3 py-2">
+            <mat-form-field class="w-full">
+                <input matInput formControlName="endDate" [matDatepicker]="endDatePicker" placeholder="Choose a date" />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field class="w-full">
+                <mat-label>Shift</mat-label>
+                <mat-select formControlName="shift">
+                    <mat-option value="Morning shift">Morning shift</mat-option>
+                    <mat-option value="Afternoon shift">Afternoon shift</mat-option>
+                    <mat-option value="Evening shift">Evening shift</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field class="w-full">
+                <mat-label>Modality</mat-label>
+                <mat-select formControlName="modality">
+                    <mat-option value="Online">Online</mat-option>
+                    <mat-option value="Hybrid">Hybrid</mat-option>
+                    <mat-option value="On-site">On-site</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-4 py-2">
+            <mat-form-field  class="w-full">
+                <mat-label>Teacher</mat-label>
+                <input formControlName="teacher" matInput type="text" />
+            </mat-form-field>
+        </div>
+        <div class="col-12 py-2">
+            <mat-form-field  class="w-full">
+                <mat-label>Description</mat-label>
+                <textarea formControlName="description" matInput type="text" placeholder="Write the description here..."></textarea>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+
+<div mat-dialog-actions class="flex justify-content-center gap-4 mat-dialog-actions-design">
+    <button (click)="onSubmit()" mat-raised-button color="primary" type="submit" class="col-2">
+        Save
+    </button>
+    <button [mat-dialog-close]="false" mat-raised-button color="warn" type="button" class="col-2">
+        Cancel
+    </button>
+</div>
