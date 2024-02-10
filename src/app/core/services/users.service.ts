@@ -11,9 +11,7 @@ let users: User[] = [
     gender: 'Male',
     email: 'diego.defilippi@hogwarts.edu',
     dateOfBirth: '10/02/2003',
-    magicWandWood: 'Oak',
     magicWandCore: 'Phoenix feather',
-    magicWandLength: 'Long',
     role: 'Teacher',
   },
   {
@@ -23,9 +21,7 @@ let users: User[] = [
     gender: 'Female',
     email: 'alexandra.ramirez@hogwarts.edu',
     dateOfBirth: '03/07/2004',
-    magicWandWood: 'Cherry tree',
     magicWandCore: 'Unicorn hair',
-    magicWandLength: 'Short',
     role: 'Student',
   },
   {
@@ -35,9 +31,7 @@ let users: User[] = [
     gender: 'Female',
     email: 'elena.garcia@hogwarts.edu',
     dateOfBirth: '05/15/1990',
-    magicWandWood: 'Willow',
-    magicWandCore: 'Unicorn hair',
-    magicWandLength: 'Long',
+    magicWandCore: 'Mermaid scale',
     role: 'Administrator',
   },
   {
@@ -47,9 +41,7 @@ let users: User[] = [
     gender: 'Male',
     email: 'harry.potter@hogwarts.edu',
     dateOfBirth: '07/31/1980',
-    magicWandWood: 'Walnut',
     magicWandCore: "Phoenix feather",
-    magicWandLength: 'Medium',
     role: 'Student',
   },  
   {
@@ -59,9 +51,7 @@ let users: User[] = [
     gender: 'Others',
     email: 'isabella.rodriguez@hogwarts.edu',
     dateOfBirth: '08/21/2000',
-    magicWandWood: 'Cherry tree',
-    magicWandCore: 'Phoenix feather',
-    magicWandLength: 'Medium',
+    magicWandCore: 'Mermaid scale',
     role: 'Student',
   },
   {
@@ -71,9 +61,7 @@ let users: User[] = [
     gender: 'Male',
     email: 'severus.snape@hogwarts.edu',
     dateOfBirth: '09/01/1960',
-    magicWandWood: 'Walnut',
     magicWandCore: 'Phoenix feather',
-    magicWandLength: 'Long',
     role: 'Teacher',
   },
   {
@@ -83,9 +71,7 @@ let users: User[] = [
     gender: 'Female',
     email: 'hermione.granger@hogwarts.edu',
     dateOfBirth: '09/19/1979',
-    magicWandWood: 'Oak',
     magicWandCore: 'Dragon heartstring',
-    magicWandLength: 'Short',
     role: 'Student',
   },
   {
@@ -95,9 +81,7 @@ let users: User[] = [
     gender: 'Male',
     email: 'ronald.weasley@hogwarts.edu',
     dateOfBirth: '03/01/1980',
-    magicWandWood: 'Willow',
     magicWandCore: 'Unicorn hair',
-    magicWandLength: 'Medium',
     role: 'Administrator',
     },
     {
@@ -107,9 +91,7 @@ let users: User[] = [
     gender: 'Female',
     email: 'minerva.mcgonagall@hogwarts.edu',
     dateOfBirth: '10/04/1925',
-    magicWandWood: 'Oak',
     magicWandCore: 'Dragon heartstring',
-    magicWandLength: 'Short',
     role: 'Teacher',
   },
   {
@@ -119,9 +101,7 @@ let users: User[] = [
     gender: 'Male',
     email: 'draco.malfoy@hogwarts.edu',
     dateOfBirth: '06/05/1980',
-    magicWandWood: 'Walnut',
     magicWandCore: 'Unicorn hair',
-    magicWandLength: 'Long',
     role: 'Student',
   },
 ];
