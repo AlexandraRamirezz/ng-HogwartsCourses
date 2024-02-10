@@ -32,10 +32,8 @@ export class UserDialogComponent {
       gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       dateOfBirth: ['', Validators.required],
-      role: ['', Validators.required],
-      magicWandWood: ['', Validators.required],
       magicWandCore: ['', Validators.required],
-      magicWandLength: ['', Validators.required],
+      role: ['', Validators.required],
     });
     if (this.data.edit) {
       this.userForm.patchValue(this.data.user);
@@ -47,10 +45,8 @@ export class UserDialogComponent {
       this.userForm.get('gender')?.disable();
       this.userForm.get('email')?.disable();
       this.userForm.get('dateOfBirth')?.disable();
-      this.userForm.get('role')?.disable();
-      this.userForm.get('magicWandWood')?.disable();
       this.userForm.get('magicWandCore')?.disable();
-      this.userForm.get('magicWandLength')?.disable();
+      this.userForm.get('role')?.disable();
     }
   }
 

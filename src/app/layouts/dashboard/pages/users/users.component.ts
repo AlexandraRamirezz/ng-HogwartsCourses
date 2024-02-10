@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 export class UsersComponent {
   style = 'bolder';
 
-  displayedColumns: string[] = ['userId', 'fullName', 'gender', 'email', 'dateOfBirth', 'role', 'magicWandWood', 'magicWandCore','magicWandLength', 'actions'];
+  displayedColumns: string[] = ['userId', 'fullName', 'gender', 'email', 'dateOfBirth', 'magicWandCore', 'role', 'actions'];
   
   users: User[] = [];
 

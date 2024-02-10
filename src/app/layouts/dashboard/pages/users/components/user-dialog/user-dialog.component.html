@@ -26,13 +26,13 @@
                 <mat-radio-button value="Others">Others</mat-radio-button>
             </mat-radio-group>
         </div>
-        <div class="col-6 py-2">
+        <div class="col-8 py-2">
             <mat-form-field class="w-full">
                 <mat-label>Email</mat-label>
                 <input formControlName="email" matInput type="email" />
             </mat-form-field>
         </div>
-        <div class="col-3 py-2">
+        <div class="col-4 py-2">
             <mat-form-field class="w-full">
                 <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Choose a date" />
                 <mat-hint>MM/DD/YYYY</mat-hint>
@@ -40,28 +40,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
-        <div class="col-3 py-2">
-            <mat-form-field class="w-full">
-                <mat-label>Role</mat-label>
-                <mat-select formControlName="role">
-                    <mat-option value="Administrator">Administrator</mat-option>
-                    <mat-option value="Teacher">Teacher</mat-option>
-                    <mat-option value="Student">Student</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-4 py-2">
-            <mat-form-field class="w-full">
-                <mat-label>Wood of magic wand</mat-label>
-                <mat-select formControlName="magicWandWood">
-                    <mat-option value="Willow">Willow</mat-option>
-                    <mat-option value="Oak">Oak</mat-option>
-                    <mat-option value="Walnut">Walnut</mat-option>
-                    <mat-option value="Cherry tree">Cherry tree</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-4 py-2">
+        <div class="col-6 py-2">
             <mat-form-field class="w-full">
                 <mat-label>Core of magic wand</mat-label>
                 <mat-select formControlName="magicWandCore">
@@ -72,13 +51,13 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-4 py-2">
+        <div class="col-6 py-2">
             <mat-form-field class="w-full">
-                <mat-label>Length of magic wand</mat-label>
-                <mat-select formControlName="magicWandLength">
-                    <mat-option value="Short">Short</mat-option>
-                    <mat-option value="Medium">Medium</mat-option>
-                    <mat-option value="Long">Long</mat-option>
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option value="Administrator">Administrator</mat-option>
+                    <mat-option value="Teacher">Teacher</mat-option>
+                    <mat-option value="Student">Student</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
