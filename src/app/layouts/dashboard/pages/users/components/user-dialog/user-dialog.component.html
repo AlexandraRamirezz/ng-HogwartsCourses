@@ -1,17 +1,16 @@
 <h1 mat-dialog-title class="flex align-items-center justify-content-center py-3">
     Users
 </h1>
-
 <div mat-dialog-content>
     <form [formGroup]="userForm" class="grid formgrid">
         <div class="col-4 py-2">
-            <mat-form-field  class="w-full">
+            <mat-form-field class="w-full">
                 <mat-label>First name</mat-label>
                 <input formControlName="firstName" matInput type="text" />
             </mat-form-field>
         </div>
         <div class="col-4 py-2">
-            <mat-form-field  class="w-full">
+            <mat-form-field class="w-full">
                 <mat-label>Last name</mat-label>
                 <input formControlName="lastName" matInput type="text" />
             </mat-form-field>
@@ -34,13 +33,33 @@
         </div>
         <div class="col-4 py-2">
             <mat-form-field class="w-full">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option value="Administrator">Administrator</mat-option>
+                    <mat-option value="Teacher">Teacher</mat-option>
+                    <mat-option value="Student">Student</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-5 py-2">
+            <mat-form-field class="w-full">
+                <mat-label>Password</mat-label>
+                <input formControlName="password" matInput type="password" [type]="hide ? 'password' : 'text'" />
+                <button *ngIf="authUser && isAuthorizedToSeePassword()" style="color: rgba(235, 241, 241, 0.716);" mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+                    <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="col-3 py-2">
+            <mat-form-field class="w-full">
+                <mat-label>Date of birth</mat-label>
                 <input matInput formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Choose a date" />
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
-        <div class="col-6 py-2">
+        <div class="col-4 py-2">
             <mat-form-field class="w-full">
                 <mat-label>Core of magic wand</mat-label>
                 <mat-select formControlName="magicWandCore">
@@ -51,15 +70,41 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-6 py-2">
-            <mat-form-field class="w-full">
-                <mat-label>Role</mat-label>
-                <mat-select formControlName="role">
-                    <mat-option value="Administrator">Administrator</mat-option>
-                    <mat-option value="Teacher">Teacher</mat-option>
-                    <mat-option value="Student">Student</mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div *ngIf="viewMode" class="col-12">
+            <h4>Available courses</h4>
+            <table mat-table [dataSource]="enrollmentsStudent" class="mat-elevation-z8">
+                <ng-container matColumnDef="courseId">
+                    <th mat-header-cell *matHeaderCellDef>COURSE ID</th>
+                    <td mat-cell *matCellDef="let enrollment">{{ enrollment.courseId }}</td>
+                </ng-container>
+                <ng-container matColumnDef="courseTitle">
+                    <th mat-header-cell *matHeaderCellDef>Course title</th>
+                    <td mat-cell *matCellDef="let enrollment">{{ enrollment.courseTitle }}</td>
+                </ng-container>
+                <ng-container matColumnDef="shift">
+                    <th mat-header-cell *matHeaderCellDef>Shift</th>
+                    <td mat-cell *matCellDef="let enrollment">{{ enrollment.shift }}</td>
+                </ng-container>
+                <ng-container matColumnDef="modality">
+                    <th mat-header-cell *matHeaderCellDef>Modality</th>
+                    <td mat-cell *matCellDef="let enrollment">{{ enrollment.modality }}</td>
+                </ng-container>
+                <ng-container matColumnDef="startDate">
+                    <th mat-header-cell *matHeaderCellDef>Start date</th>
+                    <td mat-cell *matCellDef="let enrollment">{{ enrollment.startDate | date:'MM/dd/yyyy' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button *ngIf="authUser && isAuthorizedToDelete(element)" (click)="onDelete(element)" mat-icon-button color="warn">
+                            <mat-icon primar>cancel</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['courseId', 'courseTitle', 'shift', 'modality', 'startDate', 'actions']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['courseId', 'courseTitle', 'shift', 'modality', 'startDate', 'actions'];">
+                </tr>
+            </table>
         </div>
     </form>
 </div>

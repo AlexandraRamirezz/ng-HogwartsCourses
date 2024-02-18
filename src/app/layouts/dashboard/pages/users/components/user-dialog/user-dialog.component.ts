@@ -6,6 +6,8 @@ import { User } from '../../models/user';
 import { UsersService } from '../../../../../../core/services/users.service';
 import { EnrollmentsService } from '../../../../../../core/services/enrollments.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../../../../core/services/auth.service';
+import { Enrollment } from '../../../enrollments/models/enrollment';
 
 @Component({
   selector: 'app-user-dialog',
@@ -13,10 +15,12 @@ import Swal from 'sweetalert2';
   styleUrl: './user-dialog.component.scss'
 })
 export class UserDialogComponent {
+  hide = true;
   userForm: FormGroup;
   enrollments: any[] = [];
   enrollmentsStudent: any[] = [];
   viewMode: boolean;
+  authUser: any;
 
   constructor(
     private fb: FormBuilder,
@@ -24,13 +28,15 @@ export class UserDialogComponent {
 
     @Inject(MAT_DIALOG_DATA) public data: { user: User, view: boolean, edit: boolean },
     private usersService: UsersService,
-    private enrollmentsService: EnrollmentsService) {
-      this.viewMode = this.data.view;
-      this.userForm = this.fb.group({
+    private enrollmentsService: EnrollmentsService,
+    private authService: AuthService) {
+    this.viewMode = this.data.view;
+    this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.minLength(3)]],
       gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       dateOfBirth: ['', Validators.required],
       magicWandCore: ['', Validators.required],
       role: ['', Validators.required],
@@ -38,12 +44,13 @@ export class UserDialogComponent {
     if (this.data.edit) {
       this.userForm.patchValue(this.data.user);
     }
-    if(this.data.view){
+    if (this.data.view) {
       this.userForm.patchValue(this.data.user);
       this.userForm.get('firstName')?.disable();
       this.userForm.get('lastName')?.disable();
       this.userForm.get('gender')?.disable();
       this.userForm.get('email')?.disable();
+      this.userForm.get('password')?.disable();
       this.userForm.get('dateOfBirth')?.disable();
       this.userForm.get('magicWandCore')?.disable();
       this.userForm.get('role')?.disable();
@@ -52,8 +59,9 @@ export class UserDialogComponent {
 
   ngOnInit(): void {
     this.getCourses();
+    this.authUser = this.authService.authUser;
   }
-  
+
   getCourses(): void {
     if (this.data && this.data.user && this.data.user.userId) {
       this.usersService.getUsers().subscribe({
@@ -85,7 +93,7 @@ export class UserDialogComponent {
     } else {
       console.error('this.data or this.data.user is undefined or null.');
     }
-  }  
+  }
 
   onSubmit(): void {
     if (this.userForm.invalid) {
@@ -101,7 +109,7 @@ export class UserDialogComponent {
       icon: 'error',
       title: 'Error',
       text: message,
-      confirmButtonColor: '#1e88e5',
+      confirmButtonColor: '#ffe0b2',
       background: '#303030',
       color: 'white',
     });
@@ -116,38 +124,81 @@ export class UserDialogComponent {
     });
   }
 
-  onDelete(id: number) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'This action cannot be reversed',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.enrollmentsService.deleteEnrollmentsByID(id).subscribe({
-          next: () => {
-            this.getCourses();
-            Swal.fire({
-              icon: 'success',
-              title: 'Successful discharge',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          },
-          error: (error) => {
-            console.error('Error deleting enrollment: ', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'There was an error deleting the enrollment.'
-            });
-          }
-        });
-      }
-    });
+  isAuthorizedToDelete(element: Enrollment): boolean {
+    if (!this.authUser) return false;
+    if (this.authUser.role === 'Administrator') return true;
+    if (this.authUser.role === 'Student' && this.authUser.userId === element.studentId) return true;
+    return false;
   }
+
+  onDelete(data: Enrollment) {
+    if (this.isAuthorizedToDelete(data)) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action cannot be reversed',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ffe0b2',
+        cancelButtonColor: '#ef5350',
+        background: '#303030',
+        color: '#d0cccc',
+        confirmButtonText: '<span style="color:black;">Yes, delete</span>',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.enrollmentsService.deleteEnrollmentsByID(data.id).subscribe({
+            next: () => {
+              this.getCourses();
+              Swal.fire({
+                icon: 'success',
+                title: 'Successful discharge',
+                showConfirmButton: false,
+                background: '#303030',
+                color: '#d0cccc',
+                timer: 2000
+              });
+            },
+            error: (error) => {
+              console.error('Error deleting enrollment: ', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error deleting the enrollment.',
+                confirmButtonColor: '#ef5350',
+                background: '#303030',
+                color: '#d0cccc',
+              });
+            }
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Access Denied',
+        text: 'You do not have permission to delete this enrollment.',
+        confirmButtonColor: '#ef5350',
+        background: '#303030',
+        color: '#d0cccc',
+      });
+    }
+  }
+
+  togglePasswordVisibility() {
+    if (this.isAuthorizedToSeePassword()) {
+      this.hide = !this.hide;
+    }
+  }
+
+  isAuthorizedToSeePassword(): boolean {
+    if (!this.authUser || !this.data.user) return false;
+    if (this.authUser.role === 'Administrator') {
+      if (this.data.user.role === 'Administrator' && this.authUser.userId !== this.data.user.userId) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return this.authUser.userId === this.data.user.userId;
+  }  
 }
