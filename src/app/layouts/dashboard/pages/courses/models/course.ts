@@ -1,5 +1,5 @@
 export interface Course {
-    courseId: number;
+    id: string;
     title: string;
     description: string;
     startDate: string;
@@ -7,7 +7,6 @@ export interface Course {
     shift: string;
     modality: string;
     teacher: string;
-    capacity: number;
-    enrolled: number;
     status: boolean;
+    courseId: number;
 }
