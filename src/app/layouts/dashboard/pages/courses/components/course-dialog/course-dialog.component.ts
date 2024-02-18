@@ -6,6 +6,9 @@ import { Course } from '../../models/course';
 import { CoursesService } from '../../../../../../core/services/courses.service';
 import { EnrollmentsService } from '../../../../../../core/services/enrollments.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../../../../core/services/auth.service';
+import { Enrollment } from '../../../enrollments/models/enrollment';
+import { UsersService } from '../../../../../../core/services/users.service';
 
 @Component({
   selector: 'app-course-dialog',
@@ -14,9 +17,11 @@ import Swal from 'sweetalert2';
 })
 export class CourseDialogComponent {
   courseForm: FormGroup;
+  users: any[] = [];
   enrollments: any[] = [];
-  enrollmentsStudent: any[] = [];
+  enrollmentsCourse: any[] = [];
   viewMode: boolean;
+  authUser: any;
 
   constructor(
     private fb: FormBuilder,
@@ -24,7 +29,9 @@ export class CourseDialogComponent {
 
     @Inject(MAT_DIALOG_DATA) public data: { course: Course, view: boolean, edit: boolean },
     private coursesService: CoursesService,
-    private enrollmentsService: EnrollmentsService) {
+    private enrollmentsService: EnrollmentsService,
+    private authService: AuthService,
+    private usersService: UsersService) {
     this.viewMode = this.data.view;
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -51,10 +58,18 @@ export class CourseDialogComponent {
   }
 
   ngOnInit(): void {
-    this.getCourses();
+    this.getUsers();
+    this.authUser = this.authService.authUser;
+    this.loadTeachers();
   }
 
-  getCourses(): void {
+  loadTeachers(): void {
+    this.usersService.getTeachers().subscribe(teachers => {
+      this.users = teachers;
+    });
+  }
+
+  getUsers(): void {
     if (this.data && this.data.course && this.data.course.courseId) {
       this.coursesService.getCourses().subscribe({
         next: (courses: Course[]) => {
@@ -64,8 +79,8 @@ export class CourseDialogComponent {
               const currentCourse = courses.find(course => course.courseId === this.data.course.courseId);
               if (currentCourse) {
                 this.coursesService.checkStudents(currentCourse, enrollments).subscribe({
-                  next: (enrollmentsStudent: any[]) => {
-                    this.enrollmentsStudent = enrollments.filter(enrollment => enrollment.courseId === currentCourse.courseId);
+                  next: (enrollmentsCourse: any[]) => {
+                    this.enrollmentsCourse = enrollmentsCourse;
                   },
                   error: (error) => {
                     console.error('Error checking student courses: ', error);
@@ -101,9 +116,9 @@ export class CourseDialogComponent {
       icon: 'error',
       title: 'Error',
       text: message,
-      confirmButtonColor: '#1e88e5',
+      confirmButtonColor: '#ef5350',
       background: '#303030',
-      color: 'white',
+      color: '#d0cccc',
     });
   }
 
@@ -116,38 +131,63 @@ export class CourseDialogComponent {
     });
   }
 
-  onDelete(id: number) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'This action cannot be reversed',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.enrollmentsService.deleteEnrollmentsByID(id).subscribe({
-          next: () => {
-            this.getCourses();
-            Swal.fire({
-              icon: 'success',
-              title: 'Successful discharge',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          },
-          error: (error) => {
-            console.error('Error deleting enrollment: ', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'There was an error deleting the enrollment.'
-            });
-          }
-        });
-      }
-    });
+  isAuthorizedToDelete(element: Enrollment): boolean {
+    if (!this.authUser) return false;
+    if (this.authUser.role === 'Administrator') return true;
+    if (this.authUser.role === 'Student' && this.authUser.userId === element.studentId) return true;
+    return false;
+  }
+
+  onDelete(data: Enrollment) {
+    if (this.isAuthorizedToDelete(data)) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action cannot be reversed',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ffe0b2',
+        cancelButtonColor: '#ef5350',
+        background: '#303030',
+        color: '#d0cccc',
+        confirmButtonText: '<span style="color:black;">Yes, delete</span>',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.coursesService.deleteEnrollmentsByID(data.id).subscribe({
+            next: () => {
+              this.getUsers();
+              Swal.fire({
+                icon: 'success',
+                title: 'Successful discharge',
+                showConfirmButton: false,
+                background: '#303030',
+                color: '#d0cccc',
+                timer: 2000
+              });
+            },
+            error: (error) => {
+              console.error('Error deleting enrollment: ', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error deleting the enrollment.',
+                confirmButtonColor: '#ef5350',
+                background: '#303030',
+                color: '#d0cccc',
+              });
+            }
+          });
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Access Denied',
+        text: 'You do not have permission to delete this enrollment.',
+        confirmButtonColor: '#ef5350',
+        background: '#303030',
+        color: '#d0cccc',
+      });
+    }
   }
 }
