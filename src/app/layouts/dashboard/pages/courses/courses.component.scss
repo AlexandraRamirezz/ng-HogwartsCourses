@@ -1,3 +1,21 @@
 .div-add-course {
     padding-bottom: 1.5rem;
 }
+
+@media (max-width: 1700px) {
+    .div-title {
+        width: 90px;
+    }
+
+    .div-description {
+        width: 135px;
+    }
+
+    .div-teacher {
+        width: 90px;
+    }
+
+    .div-shift {
+        width: 60px;
+    }
+}

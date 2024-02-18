@@ -4,6 +4,7 @@ import { CourseDialogComponent } from './components/course-dialog/course-dialog.
 import { Course } from './models/course';
 import { CoursesService } from '../../../../core/services/courses.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-courses',
@@ -16,13 +17,28 @@ export class CoursesComponent {
   displayedColumns = ['courseId', 'title', 'description', 'startDate', 'endDate', 'shift', 'modality', 'teacher', 'actions'];
 
   courses: Course[] = []
+  authUser: any;
 
-  constructor(public matDialog: MatDialog, private coursesService: CoursesService) { 
+  constructor(public matDialog: MatDialog, private coursesService: CoursesService, private authService: AuthService) {
     this.coursesService.getCourses().subscribe({
       next: (course) => {
         this.courses = course;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'The database is currently inaccessible.',
+          confirmButtonColor: '#ef5350',
+          background: '#303030',
+          color: '#d0cccc',
+        });
+      },
     })
+  }
+
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
   }
 
   onCreateCourse(): void {
@@ -40,8 +56,8 @@ export class CoursesComponent {
             };
   
             this.coursesService.addCourses(newCourse).subscribe({
-              next: (user) => {
-                this.courses = user;
+              next: (courses) => {
+                this.courses = courses;
               },
             });
           }
@@ -56,8 +72,8 @@ export class CoursesComponent {
     }).afterClosed().subscribe({
       next: (result) => {
         if (result) {
-          this.coursesService.updateCourses(course.courseId, result).subscribe({
-            next: (user) => (this.courses = user),
+          this.coursesService.updateCourses(course.id, result).subscribe({
+            next: (courses) => (this.courses = courses),
           })
         }
       }
@@ -71,30 +87,30 @@ export class CoursesComponent {
     })
   }
 
-  onDeleteCourse(courseId: number) {
+  onDeleteCourse(course: Course) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'This action cannot be reversed',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#1e88e5',
-      cancelButtonColor: '#c2185b',
-      confirmButtonText: 'Yes, delete',
+      confirmButtonColor: '#ffe0b2',
+      cancelButtonColor: '#ef5350',
+      confirmButtonText: '<span style="color:black;">Yes, delete</span>',
       cancelButtonText: 'Cancel',
       background: '#303030',
-      color: 'white',
+      color: '#d0cccc',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.coursesService.deleteCoursesByID(courseId).subscribe({
+        this.coursesService.deleteCoursesByID(course.id).subscribe({
           next: (user) => {
             this.courses = user;
             Swal.fire({
               icon: 'success',
               text: 'Course successfully deleted',
               showConfirmButton: false,
-              timer: 1500,
+              timer: 2000,
               background: '#303030',
-              color: 'white',
+              color: '#d0cccc',
             });
           },
           error: (error) => {
@@ -103,8 +119,9 @@ export class CoursesComponent {
               icon: 'error',
               title: 'Error',
               text: 'There was an error deleting the course.',
+              confirmButtonColor: '#ef5350',
               background: '#303030',
-              color: 'white',
+              color: '#d0cccc',
             });
           }
         });
