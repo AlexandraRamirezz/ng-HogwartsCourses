@@ -9,14 +9,18 @@ button[disabled] {
 
 @media (max-width: 1700px) {
     .div-user {
-        width: 90px;
+        width: 130px;
+    }
+
+    .div-email {
+        width: 235px;
+    }
+
+    .div-core {
+        width: 100px;
     }
 
     .div-role {
         width: 80px;
-    }
-
-    .div-core {
-        width: 40px;
     }
 }
