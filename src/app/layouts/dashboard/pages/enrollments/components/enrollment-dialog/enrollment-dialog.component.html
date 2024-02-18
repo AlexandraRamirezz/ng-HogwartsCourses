@@ -4,7 +4,7 @@
 
 <div mat-dialog-content>
     <form [formGroup]="enrollmentForm" class="grid formgrid">
-        <div class="col-6">
+        <div class="col-6 py-1">
             <mat-form-field class="w-full">
                 <mat-label>Course title</mat-label>
                 <mat-select formControlName="courseTitle">
@@ -14,7 +14,7 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-6">
+        <div class="col-6 py-1">
             <mat-form-field class="w-full">
                 <mat-label>Student name</mat-label>
                 <mat-select formControlName="studentName">
@@ -24,16 +24,52 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-6">
+        <div class="col-3 py-1">
+            <mat-form-field class="w-full">
+                <mat-label>Start date</mat-label>
+                <input formControlName="startDate" matInput [disabled]="true" [matDatepicker]="picker">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-3 py-1">
+            <mat-form-field class="w-full">
+                <mat-label>End date</mat-label>
+                <input formControlName="endDate" matInput [disabled]="true" [matDatepicker]="picker">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-6 py-1">
+            <mat-form-field class="w-full">
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput [disabled]="true">
+            </mat-form-field>
+        </div>
+        <div class="col-3" style="padding-top: 24px;">
+            <mat-form-field class="w-full">
+                <mat-label>Modality</mat-label>
+                <input formControlName="modality" matInput [disabled]="true">
+            </mat-form-field>
+        </div>
+        <div class="col-3" style="padding-top: 24px;">
             <mat-form-field class="w-full">
                 <mat-label>Shift</mat-label>
                 <input formControlName="shift" matInput [disabled]="true">
             </mat-form-field>
         </div>
-        <div class="col-6">
+        <div class="col-3" style="padding-top: 24px;">
             <mat-form-field class="w-full">
-                <mat-label>Modality</mat-label>
-                <input formControlName="modality" matInput [disabled]="true">
+                <mat-label>Teacher</mat-label>
+                <input formControlName="teacher" matInput [disabled]="true">
+            </mat-form-field>
+        </div>
+        <div class="col-3" style="padding-top: 24px;">
+            <mat-form-field class="w-full">
+                <mat-label>Core of magic wand</mat-label>
+                <input formControlName="magicWandCore" matInput [disabled]="true">
             </mat-form-field>
         </div>
     </form>
