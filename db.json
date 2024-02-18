@@ -178,6 +178,7 @@
       "shift": "Afternoon shift",
       "modality": "Hybrid",
       "teacher": "Deyvid Guevara",
+      "status": true,
       "courseId": 4
     }
   ],
