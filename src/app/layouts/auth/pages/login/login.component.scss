@@ -1,0 +1,48 @@
+.container-fluid {
+    background-color: #202021;
+    background-size: cover;
+    height: 90%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+}
+
+mat-card-content {
+    padding: 30px !important;
+}
+
+.input-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    width: 100%;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+}
+
+.footer {
+    background-color: rgb(66, 66, 66);
+    color: white;
+    position: sticky;
+    bottom: 0;
+    padding: 10px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
