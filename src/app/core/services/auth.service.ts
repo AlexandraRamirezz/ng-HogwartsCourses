@@ -39,6 +39,9 @@ export class AuthService {
                             icon: 'error',
                             title: 'Authentication Failed',
                             text: 'Invalid username and/or password',
+                            confirmButtonColor: '#ef5350',
+                            background: '#303030',
+                            color: '#d0cccc',
                         });
                     }
                 });
