@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 import { User } from './models/user';
 import { UsersService } from '../../../../core/services/users.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,15 +18,40 @@ export class UsersComponent {
   style = 'bolder';
 
   displayedColumns: string[] = ['userId', 'fullName', 'gender', 'email', 'dateOfBirth', 'magicWandCore', 'role', 'actions'];
-  
-  users: User[] = [];
 
-  constructor(private matDialog: MatDialog,private usersService: UsersService) {
+  users: User[] = [];
+  authUser: any;
+
+  constructor(private matDialog: MatDialog, private usersService: UsersService, private authService: AuthService) {
+    this.loadUsers();
+  }
+
+  loadUsers() {
     this.usersService.getUsers().subscribe({
-      next: (user) => {
-        this.users = user;
-      }
-    })
+      next: (users) => {
+        if (this.authUser && this.authUser.role === 'Administrator') {
+          this.users = users;
+        } else if (this.authUser && this.authUser.role === 'Teacher') {
+          this.users = users.filter(user => user.role === 'Student' || user.role === 'Teacher');
+        } else if (this.authUser && this.authUser.role === 'Student') {
+          this.users = users.filter(user => user.role === 'Student');
+        }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'The database is currently inaccessible.',
+          confirmButtonColor: '#ef5350',
+          background: '#303030',
+          color: '#d0cccc',
+        });
+      },
+    });
+  }
+
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
   }
 
   onCreateUser(): void {
@@ -38,63 +67,62 @@ export class UsersComponent {
               ...result,
               userId: newId,
             };
-  
             this.usersService.addUsers(newUser).subscribe({
-              next: (us) => {
-                this.users = us;
+              next: (users) => {
+                this.users = users;
               },
             });
           }
         }
       });
-  }  
+  }
 
   onEditUser(user: User) {
     this.matDialog
       .open(UserDialogComponent, {
-      data: { user: user, view: false, edit: true }
-    }).afterClosed().subscribe({
-      next: (result) => {
-        if (result) {
-          this.usersService.updateUsers(user.userId, result).subscribe({
-            next: (us) => (this.users = us),
-          })
+        data: { user: user, view: false, edit: true }
+      }).afterClosed().subscribe({
+        next: (result) => {
+          if (result) {
+            this.usersService.updateUsers(user.id, result).subscribe({
+              next: (users) => (this.users = users),
+            })
+          }
         }
-      }
-    })
+      })
   }
 
   onViewUser(user: User) {
     this.matDialog
       .open(UserDialogComponent, {
-      data: { user: user, view: true, edit: false }
-    })
+        data: { user: user, view: true, edit: false }
+      })
   }
 
-  onDeleteUser(userId: number) {
+  onDeleteUser(data: User) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'This action cannot be reversed',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#1e88e5',
-      cancelButtonColor: '#c2185b',
-      confirmButtonText: 'Yes, delete',
+      confirmButtonColor: '#ffe0b2',
+      cancelButtonColor: '#ef5350',
+      confirmButtonText: '<span style="color:black;">Yes, delete</span>',
       cancelButtonText: 'Cancel',
       background: '#303030',
-      color: 'white',
+      color: '#d0cccc',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usersService.deleteUsersByID(userId).subscribe({
-          next: (us) => {
-            this.users = us;
+        this.usersService.deleteUsersByID(data.id).subscribe({
+          next: (users) => {
+            this.users = users;
             Swal.fire({
               icon: 'success',
               text: 'User successfully deleted',
               showConfirmButton: false,
-              timer: 1500,
+              timer: 2000,
               background: '#303030',
-              color: 'white',
+              color: '#d0cccc',
             });
           },
           error: (error) => {
@@ -103,8 +131,9 @@ export class UsersComponent {
               icon: 'error',
               title: 'Error',
               text: 'There was an error deleting the user.',
+              confirmButtonColor: '#ef5350',
               background: '#303030',
-              color: 'white',
+              color: '#d0cccc',
             });
           }
         });

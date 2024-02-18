@@ -1,10 +1,9 @@
 <h1 [style.fontWeight]="style" appHeadline>List of users</h1>
 <div class="div-add-user">
-    <button (click)="onCreateUser()" mat-flat-button color="primary">
+    <button *ngIf="authUser && authUser.role === 'Administrator'" (click)="onCreateUser()" mat-flat-button color="primary">
         <mat-icon>add</mat-icon>Add user
     </button>
 </div>
-
 <mat-tab-group #tabGroup>
     <mat-tab label="List of users">
         <div class="table-container">
@@ -18,7 +17,9 @@
                 <ng-container matColumnDef="fullName">
                     <th mat-header-cell *matHeaderCellDef>Full name</th>
                     <td mat-cell *matCellDef="let user">
-                        {{ user | fullname : "uppercase" }}
+                        <div class="div-user">
+                            {{ user | fullname : "uppercase" }}
+                        </div>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="gender">
@@ -40,32 +41,35 @@
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="magicWandCore">
-                    <th mat-header-cell *matHeaderCellDef>Core of magic wand</th>
+                    <th mat-header-cell *matHeaderCellDef style="padding-top: 8px; padding-bottom: 8px; width: 120px;">Core of magic wand</th>
                     <td mat-cell *matCellDef="let user">
-                        {{ user.magicWandCore }}
+                        <div class="div-core">
+                            {{ user.magicWandCore }}
+                        </div>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="role">
                     <th mat-header-cell *matHeaderCellDef>Role</th>
                     <td mat-cell *matCellDef="let user">
-                        {{ user.role }}
+                        <div class="div-role">
+                            {{ user.role }}
+                        </div>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let user">
-                        <button (click)="onEditUser(user)" mat-icon-button color="accent">
+                        <button *ngIf="authUser && authUser.role === 'Administrator'" (click)="onEditUser(user)" mat-icon-button color="accent">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button (click)="onViewUser(user)" mat-icon-button color="primary">
+                        <button [disabled]="user.role !== 'Student'" (click)="onViewUser(user)" mat-icon-button color="primary">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <button (click)="onDeleteUser(user.userId)" mat-icon-button color="warn">
+                        <button *ngIf="authUser && authUser.role === 'Administrator'" (click)="onDeleteUser(user)" mat-icon-button color="warn">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>
                 </ng-container>
-
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>

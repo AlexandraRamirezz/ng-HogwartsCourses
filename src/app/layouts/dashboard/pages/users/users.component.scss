@@ -1,3 +1,22 @@
 .div-add-user {
     padding-bottom: 1.5rem;
 }
+
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 1700px) {
+    .div-user {
+        width: 90px;
+    }
+
+    .div-role {
+        width: 80px;
+    }
+
+    .div-core {
+        width: 40px;
+    }
+}
