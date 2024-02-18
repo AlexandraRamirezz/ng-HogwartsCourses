@@ -1,3 +1,17 @@
 .div-add-enrollment {
     padding-bottom: 1.5rem;
 }
+
+@media (max-width: 1700px) {
+    .div-title {
+        width: 90px;
+    }
+
+    .div-student {
+        width: 40px;
+    }
+
+    .div-shift {
+        width: 80px;
+    }
+}

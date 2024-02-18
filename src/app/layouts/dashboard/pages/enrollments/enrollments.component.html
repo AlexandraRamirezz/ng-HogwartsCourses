@@ -1,6 +1,6 @@
 <h1 [style.fontWeight]="style" appHeadline>List of enrollments</h1>
 <div class="div-add-enrollment">
-    <button (click)="onCreateEnrollment()" mat-flat-button color="primary">
+    <button *ngIf="authUser && authUser.role === 'Administrator' || authUser.role === 'Student'" (click)="onCreateEnrollment()" mat-flat-button color="primary">
         <mat-icon>add</mat-icon>Add enrollment
     </button>
 </div>
@@ -18,19 +18,15 @@
                 <ng-container matColumnDef="courseTitle">
                     <th mat-header-cell *matHeaderCellDef>Course title</th>
                     <td mat-cell *matCellDef="let enrollment">
-                        {{ enrollment.courseTitle }} 
+                        <div class="div-title">
+                            {{ enrollment.courseTitle }}
+                        </div> 
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="studentName">
-                    <th mat-header-cell *matHeaderCellDef>Student name</th>
+                <ng-container matColumnDef="startDate">
+                    <th mat-header-cell *matHeaderCellDef>Start date</th>
                     <td mat-cell *matCellDef="let enrollment">
-                        {{ enrollment.studentName | uppercase }}
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="shift">
-                    <th mat-header-cell *matHeaderCellDef>Shift</th>
-                    <td mat-cell *matCellDef="let enrollment">
-                        {{ enrollment.shift }} 
+                        {{ enrollment.startDate | date:'MM/dd/yyyy' }} 
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="modality">
@@ -39,16 +35,38 @@
                         {{ enrollment.modality }} 
                     </td>
                 </ng-container>
+                <ng-container matColumnDef="teacher">
+                    <th mat-header-cell *matHeaderCellDef>Teacher</th>
+                    <td mat-cell *matCellDef="let enrollment">
+                        <div class="div-title">
+                            {{ enrollment.teacher | uppercase }}
+                        </div>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="studentName">
+                    <th class="text-align-start" mat-header-cell *matHeaderCellDef>Student name</th>
+                    <td mat-cell *matCellDef="let enrollment">
+                        <div class="div-student">
+                            {{ enrollment.studentName | uppercase }}
+                        </div>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let enrollment">
+                        {{ enrollment.email }}
+                    </td>
+                </ng-container>
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let enrollment">
-                        <button (click)="onEditEnrollment(enrollment)" mat-icon-button color="accent">
+                        <button *ngIf="authUser && authUser.role === 'Administrator'" (click)="onEditEnrollment(enrollment)" mat-icon-button color="accent">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button (click)="onViewEnrollment(enrollment)" mat-icon-button color="primary">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <button (click)="onDeleteEnrollment(enrollment.enrollmentId)" mat-icon-button color="warn">
+                        <button *ngIf="authUser && authUser.role === 'Administrator'" (click)="onDeleteEnrollment(enrollment)" mat-icon-button color="warn">
                             <mat-icon primar>delete</mat-icon>
                         </button>
                     </td>

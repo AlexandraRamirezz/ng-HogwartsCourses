@@ -8,6 +8,7 @@ import { CoursesService } from '../../../../core/services/courses.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EnrollmentDialogComponent } from './components/enrollment-dialog/enrollment-dialog.component';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-enrollments',
@@ -17,30 +18,65 @@ import Swal from 'sweetalert2';
 export class EnrollmentsComponent {
   style = 'bolder';
 
-  displayedColumns = ['enrollmentId', 'courseTitle', 'studentName', 'shift', 'modality', 'actions'];
+  displayedColumns = ['enrollmentId', 'courseTitle', 'startDate', 'modality', 'teacher', 'studentName', 'email', 'actions'];
 
   enrollments: Enrollment[] = []
   users: User[] = []
   courses: Course[] = []
+  authUser: any;
 
-  constructor(private enrollmentsService: EnrollmentsService, private usersService: UsersService, private coursesService: CoursesService, public matDialog: MatDialog) {
+  constructor(private enrollmentsService: EnrollmentsService, private usersService: UsersService, private coursesService: CoursesService, public matDialog: MatDialog, private authService: AuthService) {
     this.enrollmentsService.getEnrollments().subscribe({
       next: (enrollment) => {
         this.enrollments = enrollment;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'The database is currently inaccessible.',
+          confirmButtonColor: '#ef5350',
+          background: '#303030',
+          color: '#d0cccc',
+        });
+      },
     })
 
     this.usersService.getUsers().subscribe({
       next: (user) => {
         this.users = user;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'The database is currently inaccessible.',
+          confirmButtonColor: '#ef5350',
+          background: '#303030',
+          color: '#d0cccc',
+        });
+      },
     })
 
     this.coursesService.getCourses().subscribe({
       next: (course) => {
         this.courses = course;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'The database is currently inaccessible.',
+          confirmButtonColor: '#ef5350',
+          background: '#303030',
+          color: '#d0cccc',
+        });
+      },
     })
+  }
+
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
   }
 
   onCreateEnrollment(): void {
@@ -74,7 +110,7 @@ export class EnrollmentsComponent {
       }).afterClosed().subscribe({
         next: (result) => {
           if (result) {
-            this.enrollmentsService.updateEnrollments(enrollment.enrollmentId, result, this.courses).subscribe({
+            this.enrollmentsService.updateEnrollments(enrollment.id, result, this.courses).subscribe({
               next: (enrollment) => (this.enrollments = enrollment),
             })
           }
@@ -89,30 +125,30 @@ export class EnrollmentsComponent {
       })
   }
 
-  onDeleteEnrollment(enrollmentId: number) {
+  onDeleteEnrollment(enrollment: Enrollment) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'This action cannot be reversed',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#1e88e5',
-      cancelButtonColor: '#c2185b',
-      confirmButtonText: 'Yes, delete',
+      confirmButtonColor: '#ffe0b2',
+      cancelButtonColor: '#ef5350',
+      confirmButtonText: '<span style="color:black;">Yes, delete</span>',
       cancelButtonText: 'Cancel',
       background: '#303030',
-      color: 'white',
+      color: '#d0cccc',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.enrollmentsService.deleteEnrollmentsByID(enrollmentId).subscribe({
+        this.enrollmentsService.deleteEnrollmentsByID(enrollment.id).subscribe({
           next: (enrollment) => {
             this.enrollments = enrollment;
             Swal.fire({
               icon: 'success',
               text: 'Enrollment successfully deleted',
               showConfirmButton: false,
-              timer: 1500,
+              timer: 2000,
               background: '#303030',
-              color: 'white',
+              color: '#d0cccc',
             });
           },
           error: (error) => {
@@ -121,8 +157,9 @@ export class EnrollmentsComponent {
               icon: 'error',
               title: 'Error',
               text: 'There was an error deleting the enrollment.',
+              confirmButtonColor: '#ef5350',
               background: '#303030',
-              color: 'white',
+              color: '#d0cccc',
             });
           }
         });
