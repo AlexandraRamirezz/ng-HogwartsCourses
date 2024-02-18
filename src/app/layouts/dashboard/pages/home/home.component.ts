@@ -5,6 +5,7 @@ import { CoursesService } from '../../../../core/services/courses.service';
 import { EnrollmentsService } from '../../../../core/services/enrollments.service';
 
 import { registerables } from 'chart.js/auto';
+import { AuthService } from '../../../../core/services/auth.service';
 
 Chart.register(...registerables);
 
@@ -18,13 +19,14 @@ export class HomeComponent implements OnInit {
   rolesCount: { [key: string]: number } = {};
   wandCount: { [key: string]: number } = {};
   courses: any[] = [];
-  enrollmentCount: { [key: string]: number } = {};
   enrollments: any[] = [];
   genderCount: { [key: string]: number } = {};
+  authUser: any;
 
-  constructor(private usersService: UsersService, private coursesService: CoursesService) { }
-
+  constructor(private usersService: UsersService, private coursesService: CoursesService, private authService: AuthService) { }
   ngOnInit(): void {
+    this.authUser = this.authService.authUser;
+    
     this.usersService.getUsers().subscribe(users => {
       this.users = users;
       this.countUsersByRole();
@@ -33,12 +35,6 @@ export class HomeComponent implements OnInit {
       this.createChart2();
       this.countUsersByGender();
       this.createGenderChart();
-    });
-
-    this.coursesService.getCourses().subscribe(courses => {
-      this.courses = courses;
-      this.countEnrollments();
-      this.createChart3();
     });
   }
 
@@ -74,14 +70,14 @@ export class HomeComponent implements OnInit {
           label: 'Number of users per role',
           data: Object.values(this.rolesCount),
           backgroundColor: [
-            '#CD6577',
-            '#75B6AB',
-            '#E1C17D'
+            '#EF5350',
+            '#FFE0B2',
+            '#FBBB6D'
           ],
           borderColor: [
-            '#C45568',
-            '#37B49E',
-            '#FFDF9B',
+            '#CD3734',
+            '#CFAB76',
+            '#CD9045',
           ],
           borderWidth: 1
         }]
@@ -106,52 +102,17 @@ export class HomeComponent implements OnInit {
           label: 'Distribution of users by wand type',
           data: Object.values(this.wandCount),
           backgroundColor: [
-            '#CD6577',
-            '#75B6AB',
-            '#847CC2',
-            '#E1C17D',
+            '#EF5350',
+            '#FFE0B2',
+            '#F4E98C',
+            '#FBBB6D',
           ],
           borderColor: [
-            '#C45568',
-            '#37B49E',
-            '#7363E9',
-            '#E1C17D',
+            '#CD3734',
+            '#CFAB76',
+            '#E6D85F',
+            '#CD9045',
           ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-
-  countEnrollments(): void {
-    this.courses.forEach(course => {
-      const courseTitle = course.title;
-      const enrolled = course.enrolled;
-      if (!this.enrollmentCount[courseTitle]) {
-        this.enrollmentCount[courseTitle] = 0;
-      }
-      this.enrollmentCount[courseTitle] += enrolled;
-    });
-  }
-
-  createChart3(): void {
-    const ctx = document.getElementById('courseChart') as HTMLCanvasElement;
-    const courseChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(this.enrollmentCount),
-        datasets: [{
-          label: 'Number of students enrolled per course',
-          data: Object.values(this.enrollmentCount),
-          backgroundColor: '#847CC2',
-          borderColor: '#7363E9',
           borderWidth: 1
         }]
       },
@@ -186,14 +147,14 @@ export class HomeComponent implements OnInit {
           label: 'Distribution of users by gender',
           data: Object.values(this.genderCount),
           backgroundColor: [
-            '#E1C17D',
-            '#75B6AB',
-            '#CD6577',
+            '#FBBB6D',
+            '#FFE0B2',
+            '#EF5350',
           ],
           borderColor: [
-            '#FFDF9B',
-            '#37B49E',
-            '#C45568',
+            '#CD9045',
+            '#CFAB76',
+            '#CD3734',
           ],
           borderWidth: 1
         }]
