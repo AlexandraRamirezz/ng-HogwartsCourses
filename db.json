@@ -126,6 +126,7 @@
       "lastName": "Guevara",
       "gender": "Male",
       "email": "deyvid.guevara@hogwarts.edu",
+      "password": "DeyvidGuevara",
       "dateOfBirth": "2004-05-23T05:00:00.000Z",
       "magicWandCore": "Mermaid scale",
       "role": "Teacher",
