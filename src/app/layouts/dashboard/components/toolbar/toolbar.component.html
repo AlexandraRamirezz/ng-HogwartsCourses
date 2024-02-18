@@ -1,9 +1,21 @@
-<mat-toolbar class="flex justify-content-between" color="primary">
-    <div class="div-position">
+<mat-toolbar class="flex justify-content-between grid formgrid" color="primary">
+    <div class="col-6 flex justify-content-start align-items-center">
         <button (click)="toggleSidebar.emit()" mat-icon-button class="example-icon"
             aria-label="Example icon-button with menu icon">
             <mat-icon>menu</mat-icon>
         </button>
-        <span>HogwartsCourses</span>
+        <span style="font-weight: 500;">HogwartsCourses</span>
+    </div>
+    <div class="col-2 flex justify-content-center align-items-center">
+        <span style="color: black;">Title: {{ title }}</span>
+    </div>
+    <div class="col-3 flex justify-content-center align-items-center ng-image">
+        <img src="../../../../../assets/images/logo-user.png" alt="">
+        <div style="background-color: #f6f6f6; color: black; padding: 8px; padding-left: 12px; padding-right: 12px; border-radius: 5px;">
+            <span *ngIf="authUser">{{ userName }}</span>
+        </div>
+    </div>
+    <div class="col-1 flex justify-content-start align-items-center">
+        <button (click)="logout()" class="btn-logout">LOG OUT</button>
     </div>
 </mat-toolbar>
