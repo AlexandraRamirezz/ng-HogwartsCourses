@@ -11,11 +11,11 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$HogwartsCourses-primary: mat.define-palette(mat.$blue-palette, 600);
-$HogwartsCourses-accent: mat.define-palette(mat.$yellow-palette, 700);
+$HogwartsCourses-primary: mat.define-palette(mat.$orange-palette, 100);
+$HogwartsCourses-accent: mat.define-palette(mat.$yellow-palette, 400);
 
 // The warn palette is optional (defaults to red).
-$HogwartsCourses-warn: mat.define-palette(mat.$pink-palette, 700);
+$HogwartsCourses-warn: mat.define-palette(mat.$red-palette, 400);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
