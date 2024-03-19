@@ -1,5 +1,5 @@
 .container-fluid {
-    background-color: #202021;
+    background: radial-gradient(circle, #404040, #141415);
     background-size: cover;
     height: 90%;
     padding: 20px;
@@ -36,7 +36,7 @@ mat-card-content {
 }
 
 .footer {
-    background-color: rgb(66, 66, 66);
+    background-color: #424242;
     color: white;
     position: sticky;
     bottom: 0;

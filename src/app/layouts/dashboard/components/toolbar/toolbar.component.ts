@@ -33,13 +33,7 @@ export class ToolbarComponent {
       map(route => route.snapshot.data['title'])
     ).subscribe(title => {
       this.title = title;
-      console.log(this.title);
     });
-    
-  }
-
-  logout(): void{
-    this.authService.logout();
   }
 
   @Output()

@@ -5,6 +5,7 @@ import { Enrollment } from '../../models/enrollment';
 import { CoursesService } from '../../../../../../core/services/courses.service';
 import { UsersService } from '../../../../../../core/services/users.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-enrollment-dialog',
@@ -13,8 +14,9 @@ import Swal from 'sweetalert2';
 })
 export class EnrollmentDialogComponent {
   enrollmentForm: FormGroup;
-  courses: any[] = []; 
+  courses: any[] = [];
   users: any[] = [];
+  authUser: any;
 
   constructor(
     private fb: FormBuilder,
@@ -22,7 +24,8 @@ export class EnrollmentDialogComponent {
 
     @Inject(MAT_DIALOG_DATA) private data: { enrollment: Enrollment, view: boolean, edit: boolean },
     private coursesService: CoursesService,
-    private usersService: UsersService) {
+    private usersService: UsersService,
+    private authService: AuthService) {
     this.enrollmentForm = this.fb.group({
       courseTitle: ['', [Validators.required]],
       studentName: ['', [Validators.required]],
@@ -48,10 +51,15 @@ export class EnrollmentDialogComponent {
     this.coursesService.getCourses().subscribe(courses => {
       this.courses = courses;
     });
-    
-    this.usersService.getStudents().subscribe(students => {
-      this.users = students;
-    })
+    if (this.authService.authUser?.role === 'Student') {
+      this.usersService.getStudents().subscribe(students => {
+          this.users = students;
+      });
+    } else {
+      this.usersService.getUsers().subscribe(users => {
+          this.users = users.filter(user => user.role === 'Student');
+      });
+    }
 
     this.enrollmentForm?.get('courseTitle')?.valueChanges.subscribe(courseTitle => {
       const selectedCourse = this.courses.find(course => course.title === courseTitle);

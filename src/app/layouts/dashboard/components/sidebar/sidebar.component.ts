@@ -8,7 +8,15 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  constructor(private router: Router) {}
+  userName: string | undefined;
+  authUser: any;
+
+  constructor(private router: Router, private authService: AuthService) {}
+    ngOnInit():void {
+      this.userName = this.authService.authUser?.firstName + " " + this.authService.authUser?.lastName;
+      this.authUser = this.authService.authUser;
+    }
+
     logout(): void{
       this.router.navigate(['auth', 'login'])
     }

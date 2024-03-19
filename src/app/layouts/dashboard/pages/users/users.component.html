@@ -1,9 +1,10 @@
-<h1 [style.fontWeight]="style" appHeadline>List of users</h1>
+<h1 [style.fontWeight]="style" appHeadline>{{ authUser && authUser.role === 'Student' ? 'List of students' : 'List of users' }}</h1>
 <div class="div-add-user">
     <button *ngIf="authUser && authUser.role === 'Administrator'" (click)="onCreateUser()" mat-flat-button color="primary">
         <mat-icon>add</mat-icon>Add user
     </button>
 </div>
+
 <mat-tab-group #tabGroup>
     <mat-tab label="List of users">
         <div class="table-container">

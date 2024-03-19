@@ -5,8 +5,11 @@
     <mat-list-item routerLink="home" routerLinkActive="active-link">
         <a>Home</a>
     </mat-list-item>
-    <mat-list-item routerLink="users" routerLinkActive="active-link">
+    <mat-list-item routerLink="users" routerLinkActive="active-link" *ngIf="authUser && authUser.role !== 'Student'">
         <a>Users</a>
+    </mat-list-item>
+    <mat-list-item routerLink="users" routerLinkActive="active-link" *ngIf="authUser && authUser.role === 'Student'">
+        <a>Students</a>
     </mat-list-item>
     <mat-list-item routerLink="courses" routerLinkActive="active-link">
         <a>Courses</a>

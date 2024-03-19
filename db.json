@@ -287,6 +287,36 @@
       "enrollmentId": 7,
       "studentId": 10,
       "courseId": 3
+    },
+    {
+      "id": "183e",
+      "courseTitle": "Transfiguration Fundamentals",
+      "studentName": "Draco Malfoy",
+      "startDate": "2023-02-10T05:00:00.000Z",
+      "endDate": "2023-05-30T05:00:00.000Z",
+      "shift": "Afternoon shift",
+      "modality": "Hybrid",
+      "teacher": "Deyvid Guevara",
+      "email": "draco.malfoy@hogwarts.edu",
+      "magicWandCore": "Unicorn hair",
+      "enrollmentId": 8,
+      "studentId": 10,
+      "courseId": 4
+    },
+    {
+      "id": "fbbd",
+      "courseTitle": "Transfiguration Fundamentals",
+      "studentName": "Ronald Weasley",
+      "startDate": "2023-02-10T05:00:00.000Z",
+      "endDate": "2023-05-30T05:00:00.000Z",
+      "shift": "Afternoon shift",
+      "modality": "Hybrid",
+      "teacher": "Deyvid Guevara",
+      "email": "ronald.weasley@hogwarts.edu",
+      "magicWandCore": "Unicorn hair",
+      "enrollmentId": 9,
+      "studentId": 8,
+      "courseId": 4
     }
   ]
 }
