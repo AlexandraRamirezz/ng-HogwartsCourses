@@ -84,6 +84,7 @@ export class UsersComponent {
       }).afterClosed().subscribe({
         next: (result) => {
           if (result) {
+            result.userId = user.userId;
             this.usersService.updateUsers(user.id, result).subscribe({
               next: (users) => (this.users = users),
             })
@@ -126,11 +127,10 @@ export class UsersComponent {
             });
           },
           error: (error) => {
-            console.error('Error deleting user: ', error);
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'There was an error deleting the user.',
+              text: 'There was an error deleting the user: ' + error,
               confirmButtonColor: '#ef5350',
               background: '#303030',
               color: '#d0cccc',

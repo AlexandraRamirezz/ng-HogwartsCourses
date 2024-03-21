@@ -7,6 +7,11 @@ import { CoursesService } from '../../../../core/services/courses.service';
 import { EnrollmentsService } from '../../../../core/services/enrollments.service';
 import { UsersService } from '../../../../core/services/users.service';
 import { SharedModule } from '../../../../shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
+import { CoursesEffects } from './store/courses.effects';
+import { StoreModule } from '@ngrx/store';
+import { coursesFeature } from './store/courses.reducer';
+import { EnrollmentsModule } from '../enrollments/enrollments.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,10 @@ import { SharedModule } from '../../../../shared/shared.module';
   imports: [
     CommonModule,
     CoursesRoutingModule,
-    SharedModule
+    SharedModule,
+    EnrollmentsModule,
+    StoreModule.forFeature(coursesFeature),
+    EffectsModule.forFeature([CoursesEffects]),
   ],
   exports: [CoursesComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

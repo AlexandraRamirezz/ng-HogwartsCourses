@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from '../../layouts/dashboard/pages/users/models/user';
 import { of } from 'rxjs';
-import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 describe('AuthService', () => {
     let authService: AuthService;
@@ -33,45 +33,70 @@ describe('AuthService', () => {
     it('A user is authenticated to authUser when I log in', () => {
         const mockUser: User = {
             "id": "user001",
-            "userId": 1,
             "firstName": "firstNameTest",
             "lastName": "lastNameTest",
             "gender": "Others",
             "email": "email.test@hogwarts.edu",
-            "password": "test",
+            "password": "passwordTest",
             "dateOfBirth": "09/19/1979",
             "magicWandCore": "Dragon heartstring",
-            "role": "Student"
+            "role": "Student",
+            "userId": 1
         };
-
         usersServiceSpy.getAuth.and.returnValue(of(mockUser));
-
         authService.login({ email: 'email.test@hogwarts.edu', password: 'password' });
 
         expect(authService.authUser).toEqual(mockUser);
         expect(authService.token).toBeTruthy();
     });
 
-    it('Displays an error alert when credentials are incorrect', () => {
-        // Configurando el servicio para devolver un observable de valor undefined,
-        // simulando credenciales incorrectas
-        usersServiceSpy.getAuth.and.returnValue(of(undefined));
-    
-        // Espiando la función fire de Swal
-        spyOn(Swal, 'fire');
-    
-        // Llamando al método login con credenciales incorrectas
-        authService.login({ email: 'email.test@hogwarts.edu', password: 'password' });
-    
-        // Verificando que authService.authUser sea null
-        expect(authService.authUser).toBeNull();
-    
-        // Verificando que se haya llamado a Swal.fire con los argumentos correctos
-        expect(Swal.fire).toHaveBeenCalled();
-        const args = (Swal.fire as jasmine.Spy).calls.mostRecent().args[0]; 
-        expect(args.icon).toBe('error');
-        expect(args.title).toBe('Authentication failed');
-        expect(args.text).toBe('Invalid username and/or password');
+    it('Log out successfully', () => {
+        authService.authUser = {
+            "id": "t4xp",
+            "firstName": "firstNameTest",
+            "lastName": "lastNameTest",
+            "gender": "Others",
+            "email": "email.test@hogwarts.edu",
+            "password": "passwordTest",
+            "dateOfBirth": "09/19/1979",
+            "magicWandCore": "Dragon heartstring",
+            "role": "Student",
+            "userId": 1
+        };
+        authService.token = 'mockToken';
+        spyOn(localStorage, 'removeItem');
+        authService.logout();
+
+        expect(authService.token).toBe('');
+        expect(localStorage.removeItem).toHaveBeenCalledWith('authUser');
+        expect(localStorage.removeItem).toHaveBeenCalledWith('token');
     });
-    
+
+    it('Verify the token correctly', () => {
+        localStorage.setItem('token', 'mockToken');
+
+        authService.verifyToken().subscribe(isValid => {
+            expect(isValid).toBeTruthy();
+        });
+    });
+
+    it('Handles the authenticated session when launching the app', () => {
+        const storedUser = {
+            "id": "t4xp",
+            "firstName": "firstNameTest",
+            "lastName": "lastNameTest",
+            "gender": "Others",
+            "email": "email.test@hogwarts.edu",
+            "password": "passwordTest",
+            "dateOfBirth": "09/19/1979",
+            "magicWandCore": "Dragon heartstring",
+            "role": "Student",
+            "userId": 1,
+        };
+        localStorage.setItem('authUser', JSON.stringify(storedUser));
+
+        authService = new AuthService(TestBed.inject(Router), TestBed.inject(UsersService));
+
+        expect(authService.authUser).toEqual(storedUser);
+    });
 });

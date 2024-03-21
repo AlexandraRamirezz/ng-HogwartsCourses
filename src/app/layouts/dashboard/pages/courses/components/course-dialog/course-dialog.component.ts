@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../../../../../../core/services/auth.service';
 import { Enrollment } from '../../../enrollments/models/enrollment';
 import { UsersService } from '../../../../../../core/services/users.service';
+import { Store } from '@ngrx/store';
+import { CoursesActions } from '../../store/courses.actions';
 
 @Component({
   selector: 'app-course-dialog',
@@ -23,15 +25,9 @@ export class CourseDialogComponent {
   viewMode: boolean;
   authUser: any;
 
-  constructor(
-    private fb: FormBuilder,
-    private matDialogRef: MatDialogRef<CourseDialogComponent>,
-
+  constructor(private fb: FormBuilder, private matDialogRef: MatDialogRef<CourseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { course: Course, view: boolean, edit: boolean },
-    private coursesService: CoursesService,
-    private enrollmentsService: EnrollmentsService,
-    private authService: AuthService,
-    private usersService: UsersService) {
+    private coursesService: CoursesService, private enrollmentsService: EnrollmentsService, private authService: AuthService, private usersService: UsersService, private store: Store) {
     this.viewMode = this.data.view;
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -58,6 +54,7 @@ export class CourseDialogComponent {
   }
 
   ngOnInit(): void {
+
     this.getUsers();
     this.authUser = this.authService.authUser;
     this.loadTeachers();
@@ -107,6 +104,10 @@ export class CourseDialogComponent {
       this.markFormGroupTouched(this.courseForm);
       this.showErrorMessage('Please fill in all fields correctly.');
       return;
+    }else{
+      if (!this.data.edit && !this.data.view){
+        this.store.dispatch(CoursesActions.createCourses({data: this.courseForm.value}));
+      }
     }
     this.matDialogRef.close(this.courseForm.value);
   }
@@ -189,5 +190,35 @@ export class CourseDialogComponent {
         color: '#d0cccc',
       });
     }
+  }
+
+  getCourses(): void {
+    this.coursesService.getCourses().subscribe({
+      next: (courses: Course[]) => {
+        this.enrollmentsService.getEnrollments().subscribe({
+          next: (enrollments: any[]) => {
+            this.enrollments = enrollments;
+            const currentCourse = courses.find(curso => curso.courseId === this.data.course.courseId);
+            if (currentCourse) {
+              this.coursesService.checkStudents(currentCourse, enrollments).subscribe({
+                next: (enrollmentsCourse: any[]) => {
+                  this.enrollmentsCourse = enrollments.filter(enrollment => enrollment.courseId === currentCourse.courseId);
+                },
+                error: (error) => {
+                  alert(error);
+                }
+              });
+              
+            }
+          },
+          error: (error) => {
+            alert(error);
+          }
+        });
+      },
+      error: (error) => {
+        alert(error);
+      }
+    });
   }
 }

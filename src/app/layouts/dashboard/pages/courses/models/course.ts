@@ -7,6 +7,16 @@ export interface Course {
     shift: string;
     modality: string;
     teacher: string;
-    status: boolean;
+    courseId: number;
+}
+
+export interface CreateCourse {
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    shift: string;
+    modality: string;
+    teacher: string;
     courseId: number;
 }

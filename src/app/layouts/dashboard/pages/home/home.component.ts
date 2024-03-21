@@ -3,7 +3,6 @@ import { UsersService } from '../../../../core/services/users.service';
 import Chart from 'chart.js/auto';
 import { CoursesService } from '../../../../core/services/courses.service';
 import { EnrollmentsService } from '../../../../core/services/enrollments.service';
-
 import { registerables } from 'chart.js/auto';
 import { AuthService } from '../../../../core/services/auth.service';
 

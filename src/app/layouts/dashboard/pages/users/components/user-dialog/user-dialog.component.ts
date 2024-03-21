@@ -76,18 +76,18 @@ export class UserDialogComponent {
                     this.enrollmentsStudent = enrollmentsStudent;
                   },
                   error: (error) => {
-                    console.error('Error checking student courses: ', error);
+                    console.error('Error checking student courses: ' + error);
                   }
                 });
               }
             },
             error: (error) => {
-              console.error('Error getting enrollments: ', error);
+              console.error('Error getting enrollments: ' + error);
             }
           });
         },
         error: (error) => {
-          console.error('Failed to get users:', error);
+          console.error('Failed to get users: ' + error);
         }
       });
     } else {
@@ -159,7 +159,7 @@ export class UserDialogComponent {
               });
             },
             error: (error) => {
-              console.error('Error deleting enrollment: ', error);
+              console.error('Error deleting enrollment: ' + error);
               Swal.fire({
                 icon: 'error',
                 title: 'Error',

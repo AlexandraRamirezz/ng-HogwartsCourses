@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, mergeMap, of } from 'rxjs';
 import { User } from '../../layouts/dashboard/pages/users/models/user';
 import { Enrollment } from '../../layouts/dashboard/pages/enrollments/models/enrollment';
-import { UsersService } from './users.service';
 import { Course } from '../../layouts/dashboard/pages/courses/models/course';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -13,7 +12,7 @@ let enrollments: Enrollment[] = [];
     providedIn: 'root'
 })
 export class EnrollmentsService {
-    constructor(private usersService: UsersService, private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
 
     getEnrollments() {
         return this.httpClient.get<Enrollment[]>(`${environment.apiURL}enrollments`);

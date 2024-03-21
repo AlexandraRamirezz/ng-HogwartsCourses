@@ -143,7 +143,6 @@
       "shift": "Evening shift",
       "modality": "Hybrid",
       "teacher": "Minerva McGonagall",
-      "status": true,
       "courseId": 1
     },
     {
@@ -155,7 +154,6 @@
       "shift": "Morning shift",
       "modality": "On-site",
       "teacher": "Diego Defilippi",
-      "status": true,
       "courseId": 2
     },
     {
@@ -167,7 +165,6 @@
       "shift": "Afternoon shift",
       "modality": "Online",
       "teacher": "Severus Snape",
-      "status": true,
       "courseId": 3
     },
     {
@@ -179,7 +176,6 @@
       "shift": "Afternoon shift",
       "modality": "Hybrid",
       "teacher": "Deyvid Guevara",
-      "status": true,
       "courseId": 4
     }
   ],
@@ -317,6 +313,21 @@
       "enrollmentId": 9,
       "studentId": 8,
       "courseId": 4
+    },
+    {
+      "id": "6972",
+      "courseTitle": "Herbology Essentials",
+      "studentName": "Draco Malfoy",
+      "startDate": "2023-03-10T05:00:00.000Z",
+      "endDate": "2023-07-29T05:00:00.000Z",
+      "shift": "Afternoon shift",
+      "modality": "Online",
+      "teacher": "Severus Snape",
+      "email": "draco.malfoy@hogwarts.edu",
+      "magicWandCore": "Unicorn hair",
+      "enrollmentId": 10,
+      "studentId": 10,
+      "courseId": 3
     }
   ]
 }

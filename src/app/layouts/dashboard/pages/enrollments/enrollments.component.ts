@@ -110,6 +110,7 @@ export class EnrollmentsComponent {
       }).afterClosed().subscribe({
         next: (result) => {
           if (result) {
+            result.enrollmentId = enrollment.enrollmentId;
             this.enrollmentsService.updateEnrollments(enrollment.id, result, this.courses).subscribe({
               next: (enrollment) => (this.enrollments = enrollment),
             })
@@ -152,11 +153,10 @@ export class EnrollmentsComponent {
             });
           },
           error: (error) => {
-            console.error('Error deleting enrollment: ', error);
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'There was an error deleting the enrollment.',
+              text: 'There was an error deleting the enrollment: ' + error,
               confirmButtonColor: '#ef5350',
               background: '#303030',
               color: '#d0cccc',

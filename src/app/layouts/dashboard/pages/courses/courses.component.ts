@@ -1,40 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 import { Course } from './models/course';
 import { CoursesService } from '../../../../core/services/courses.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { CoursesActions } from './store/courses.actions';
+import { selectCourses } from './store/courses.selectors';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnDestroy {
   style = 'bolder';
 
   displayedColumns = ['courseId', 'title', 'description', 'startDate', 'endDate', 'shift', 'modality', 'teacher', 'actions'];
 
   courses: Course[] = []
+  coursesSubscription?: Subscription;
   authUser: any;
 
-  constructor(public matDialog: MatDialog, private coursesService: CoursesService, private authService: AuthService) {
-    this.coursesService.getCourses().subscribe({
-      next: (course) => {
-        this.courses = course;
-      },
-      error: () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'The database is currently inaccessible.',
-          confirmButtonColor: '#ef5350',
-          background: '#303030',
-          color: '#d0cccc',
-        });
-      },
+  constructor(public matDialog: MatDialog, private authService: AuthService, private store: Store) {
+    this.coursesSubscription = this.store.select(selectCourses).subscribe({
+      next: (courses) => {
+        this.courses = courses;
+      }
     })
+    this.store.dispatch(CoursesActions.loadCourses())
   }
 
   ngOnInit(): void {
@@ -54,27 +50,20 @@ export class CoursesComponent {
               ...result,
               courseId: newId,
             };
-  
-            this.coursesService.addCourses(newCourse).subscribe({
-              next: (courses) => {
-                this.courses = courses;
-              },
-            });
           }
         }
-      });
+      })
   }  
 
   onEditCourse(course: Course) {
     this.matDialog
       .open(CourseDialogComponent, {
-      data: { course: course, view: false, edit: true }
+        data: { course: course, view: false, edit: true }
     }).afterClosed().subscribe({
       next: (result) => {
         if (result) {
-          this.coursesService.updateCourses(course.id, result).subscribe({
-            next: (courses) => (this.courses = courses),
-          })
+          result.courseId = course.courseId;
+          this.store.dispatch(CoursesActions.modifyCourses({ id: course.id, data: result }));
         }
       }
     })
@@ -83,7 +72,7 @@ export class CoursesComponent {
   onViewCourse(course: Course) {
     this.matDialog
       .open(CourseDialogComponent, {
-      data: { course: course, view: true, edit: false }
+        data: { course: course, view: true, edit: false }
     })
   }
 
@@ -101,31 +90,12 @@ export class CoursesComponent {
       color: '#d0cccc',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.coursesService.deleteCoursesByID(course.id).subscribe({
-          next: (user) => {
-            this.courses = user;
-            Swal.fire({
-              icon: 'success',
-              text: 'Course successfully deleted',
-              showConfirmButton: false,
-              timer: 2000,
-              background: '#303030',
-              color: '#d0cccc',
-            });
-          },
-          error: (error) => {
-            console.error('Error deleting course: ', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'There was an error deleting the course.',
-              confirmButtonColor: '#ef5350',
-              background: '#303030',
-              color: '#d0cccc',
-            });
-          }
-        });
+        this.store.dispatch(CoursesActions.deleteCourses({id: course.id}));
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.coursesSubscription?.unsubscribe();
   }
 }
