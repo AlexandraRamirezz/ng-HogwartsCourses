@@ -2,9 +2,9 @@
     <mat-drawer [opened]="showSidebar" #drawer class="example-sidenav" mode="side" position="start">
         <app-sidebar></app-sidebar>
     </mat-drawer>
-    <div class="example-sidenav-content">
+    <div class="sidenav-content">
         <app-toolbar (toggleSidebar)="showSidebar = !showSidebar"></app-toolbar>
-        <main>
+        <main class="content-pages">
             <router-outlet></router-outlet>
         </main>
     </div>

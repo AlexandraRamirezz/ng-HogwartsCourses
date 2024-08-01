@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 import { Course } from './models/course';
-import { CoursesService } from '../../../../core/services/courses.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Store } from '@ngrx/store';
@@ -41,17 +40,6 @@ export class CoursesComponent implements OnDestroy {
     this.matDialog
       .open(CourseDialogComponent, {
         data: { view: false, edit: false }
-      }).afterClosed().subscribe({
-        next: (result) => {
-          if (result) {
-            const maxId = Math.max(...this.courses.map(course => course.courseId), 0);
-            const newId = maxId + 1;
-            const newCourse = {
-              ...result,
-              courseId: newId,
-            };
-          }
-        }
       })
   }  
 

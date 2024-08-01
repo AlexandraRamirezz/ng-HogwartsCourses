@@ -1,5 +1,10 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 import { CreateCourse, Course } from '../models/course';
+
+export const createCourse = createAction(
+    '[Courses] Create Course',
+    props<{ course: Course }>()
+);
 
 export const CoursesActions = createActionGroup({
     source: 'Courses',

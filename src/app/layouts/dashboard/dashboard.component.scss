@@ -3,9 +3,19 @@
 }
 
 mat-drawer {
-    width: 170px;
+    width: 11.25rem;
 }
 
 main {
     padding: 1.5rem;
+}
+
+.sidenav-content {
+    height: 100%;
+}
+
+.content-pages {
+    position: relative;
+    height: calc(100% - 7rem);
+    overflow-y: scroll;
 }

@@ -1,11 +1,11 @@
-.div-position {
-    display: flex;
-    align-items: center;
-    width: 100vh;
+mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .btn-logout {
-    background-color: #fbbb6d; // Color de fondo del botón
+    background-color: #fbbb6d;
     border: 1px solid rgb(230, 165, 92);
     color: white;
     border-radius: 5px;
