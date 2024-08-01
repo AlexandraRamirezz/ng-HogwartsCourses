@@ -21,7 +21,7 @@
       "password": "AlexandraRamirez",
       "dateOfBirth": "2004-03-07T05:00:00.000Z",
       "magicWandCore": "Unicorn hair",
-      "role": "Student",
+      "role": "Administrator",
       "userId": 2
     },
     {
@@ -33,7 +33,7 @@
       "password": "GwynethSegura",
       "dateOfBirth": "1990-05-15T05:00:00.000Z",
       "magicWandCore": "Mermaid scale",
-      "role": "Administrator",
+      "role": "Student",
       "userId": 3
     },
     {
@@ -225,21 +225,6 @@
       "courseId": 4
     },
     {
-      "id": "a679",
-      "courseTitle": "Herbology Essentials",
-      "studentName": "Alexandra Ramirez",
-      "startDate": "2023-03-10T05:00:00.000Z",
-      "endDate": "2023-07-29T05:00:00.000Z",
-      "shift": "Afternoon shift",
-      "modality": "Online",
-      "teacher": "Severus Snape",
-      "email": "alexandra.ramirez@hogwarts.edu",
-      "magicWandCore": "Unicorn hair",
-      "enrollmentId": 4,
-      "studentId": 2,
-      "courseId": 3
-    },
-    {
       "id": "384c",
       "courseTitle": "Potions 101",
       "studentName": "Ronald Weasley",
@@ -253,21 +238,6 @@
       "enrollmentId": 5,
       "studentId": 8,
       "courseId": 1
-    },
-    {
-      "id": "2723",
-      "courseTitle": "Charms for Beginners",
-      "studentName": "Alexandra Ramirez",
-      "startDate": "2022-05-20T05:00:00.000Z",
-      "endDate": "2022-12-08T05:00:00.000Z",
-      "shift": "Morning shift",
-      "modality": "On-site",
-      "teacher": "Diego Defilippi",
-      "email": "alexandra.ramirez@hogwarts.edu",
-      "magicWandCore": "Unicorn hair",
-      "enrollmentId": 6,
-      "studentId": 2,
-      "courseId": 2
     },
     {
       "id": "c3e6",
